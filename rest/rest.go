@@ -2,9 +2,9 @@ package rest
 
 import (
 	"log"
-	"math/rand"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nelsonlai-golang/go-util/random"
 )
 
 // response is a REST response object
@@ -25,17 +25,10 @@ func OK(c *gin.Context, data interface{}) {
 
 // FAIL returns a failed response
 func FAIL(c *gin.Context, err error) {
-	ref := _randStringRunes(10)
+	ref := random.RandomString(10, random.StringConfig{
+		Uppercase: true,
+		Lowercase: true,
+	})
 	log.Default().Println("ref: ", ref, " | err: ", err.Error())
 	c.JSON(200, response{Success: false, Data: errorMsg{Ref: ref, Message: err.Error()}})
-}
-
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-func _randStringRunes(n int) string {
-	b := make([]rune, n)
-	for i := range b {
-		b[i] = letterRunes[rand.Intn(len(letterRunes))]
-	}
-	return string(b)
 }
