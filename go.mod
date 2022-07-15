@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
+	github.com/nelsonlai-golang/go-util v0.0.0-20220715063811-7be3e14a909c
 	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe
 	github.com/swaggo/gin-swagger v1.5.1
 	github.com/ulule/limiter/v3 v3.10.0
