@@ -23,8 +23,8 @@ type SecuredPath struct {
 type SecurityConfig struct {
 	PublicPaths     []PublicPath
 	SecuredPaths    []SecuredPath
-	SessionExpire   *time.Duration
-	RefreshExpire   *time.Duration
+	SessionExpire   time.Duration
+	RefreshExpire   time.Duration
 	RefreshToken    bool
 	MultipleSession bool
 	RestrictIP      bool

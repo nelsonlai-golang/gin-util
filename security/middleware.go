@@ -11,12 +11,12 @@ type SessionHandler func(s *WebSecurity) gin.HandlerFunc
 
 // Setup setup the security middleware.
 // You may pass your custom additional session handler to this function.
-func Setup(r *gin.Engine, s *WebSecurity, handlers ...SessionHandler) {
+func Setup(r *gin.Engine, w *WebSecurity, handlers ...SessionHandler) {
 	autoMigrateSecurityPath()
 	autoMigrateSecuritySession()
-	r.Use(middleware(s))
+	r.Use(middleware(w))
 	for _, handler := range handlers {
-		r.Use(handler(s))
+		r.Use(handler(w))
 	}
 }
 
@@ -24,7 +24,7 @@ func Setup(r *gin.Engine, s *WebSecurity, handlers ...SessionHandler) {
 // has session? yes -> pass, no -> fail
 // (optional) match ip? yes -> pass, no -> fail
 // has role? yes -> pass, no -> fail
-func middleware(s *WebSecurity) gin.HandlerFunc {
+func middleware(w *WebSecurity) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		path := c.Request.URL.Path
@@ -52,7 +52,7 @@ func middleware(s *WebSecurity) gin.HandlerFunc {
 			return
 		}
 
-		if s.SecurityConfig.RestrictIP && session.ClientIP != s.GetRequestIP(c) {
+		if w.SecurityConfig.RestrictIP && session.ClientIP != w.GetRequestIP(c) {
 			c.AbortWithStatus(401)
 			return
 		}

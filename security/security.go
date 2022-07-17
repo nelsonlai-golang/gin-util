@@ -93,12 +93,12 @@ func (w *WebSecurity) Login(c *gin.Context, userId uint, role []string) *Securit
 		SessionId: uuid.New().String(),
 		UserId:    userId,
 		Role:      strings.Join(role, ","),
-		Expire:    time.Now().Add(*w.SecurityConfig.SessionExpire),
+		Expire:    time.Now().Add(w.SecurityConfig.SessionExpire),
 	}
 
 	if w.SecurityConfig.RefreshToken {
 		session.RefreshToken = uuid.New().String()
-		session.RefreshExpire = time.Now().Add(*w.SecurityConfig.RefreshExpire)
+		session.RefreshExpire = time.Now().Add(w.SecurityConfig.RefreshExpire)
 	}
 
 	if w.SecurityConfig.RestrictIP {
@@ -135,7 +135,7 @@ func (w *WebSecurity) RefreshSession(c *gin.Context) {
 	}
 
 	session.SessionId = uuid.New().String()
-	session.Expire = time.Now().Add(*w.SecurityConfig.SessionExpire)
+	session.Expire = time.Now().Add(w.SecurityConfig.SessionExpire)
 	updateSession(session)
 
 	w.setCookie(c, session.SessionId)
@@ -162,8 +162,8 @@ func (w *WebSecurity) RefreshWithToken(c *gin.Context) {
 	}
 
 	session.SessionId = uuid.New().String()
-	session.Expire = time.Now().Add(*w.SecurityConfig.SessionExpire)
-	session.RefreshExpire = time.Now().Add(*w.SecurityConfig.RefreshExpire)
+	session.Expire = time.Now().Add(w.SecurityConfig.SessionExpire)
+	session.RefreshExpire = time.Now().Add(w.SecurityConfig.RefreshExpire)
 	session.RefreshToken = uuid.New().String()
 	updateSession(session)
 
