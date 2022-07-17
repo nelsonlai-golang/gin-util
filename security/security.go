@@ -15,29 +15,33 @@ type WebSecurity struct {
 
 // BuildSecurityTable build the security table
 func (w *WebSecurity) BuildSecurityTable(config *SecurityConfig) {
-	deleteSecurityPathTable()
+	deleteSecurityPath()
 	autoMigrateSecurityPath()
 
 	w.SecurityConfig = config
 
 	// add public paths
 	for _, path := range config.PublicPaths {
-		createSecurityPath(SecurityPath{
-			Method:    strings.ToUpper(path.Method),
-			PathRegex: path.PathRegex,
-			Role:      "*",
-			isPublic:  true,
-		})
+		for _, method := range path.Method {
+			createSecurityPath(SecurityPath{
+				Method:    strings.ToUpper(method),
+				PathRegex: path.PathRegex,
+				Role:      "*",
+				IsPublic:  true,
+			})
+		}
 	}
 
 	// add secured paths
 	for _, path := range config.SecuredPaths {
-		createSecurityPath(SecurityPath{
-			Method:    strings.ToUpper(path.Method),
-			PathRegex: path.PathRegex,
-			Role:      strings.Join(path.Roles, ","),
-			isPublic:  false,
-		})
+		for _, method := range path.Method {
+			createSecurityPath(SecurityPath{
+				Method:    strings.ToUpper(method),
+				PathRegex: path.PathRegex,
+				Role:      strings.Join(path.Roles, ","),
+				IsPublic:  false,
+			})
+		}
 	}
 }
 

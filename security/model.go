@@ -8,13 +8,13 @@ import (
 
 // PublicPath is a path that is public.
 type PublicPath struct {
-	Method    string
+	Method    []string
 	PathRegex string
 }
 
 // SecurityPath is a path that is secured.
 type SecuredPath struct {
-	Method    string
+	Method    []string
 	PathRegex string
 	Roles     []string
 }
@@ -53,5 +53,5 @@ type SecurityPath struct {
 	Method    string
 	PathRegex string
 	Role      string
-	isPublic  bool
+	IsPublic  bool
 }
