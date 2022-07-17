@@ -22,22 +22,26 @@ func (w *WebSecurity) BuildSecurityTable(config *SecurityConfig) {
 
 	// add public paths
 	for _, path := range config.PublicPaths {
-		createSecurityPath(SecurityPath{
-			Method:    strings.ToUpper(path.Method),
-			PathRegex: path.PathRegex,
-			Role:      "*",
-			IsPublic:  true,
-		})
+		for _, method := range path.Method {
+			createSecurityPath(SecurityPath{
+				Method:    strings.ToUpper(method),
+				PathRegex: path.PathRegex,
+				Role:      "*",
+				IsPublic:  true,
+			})
+		}
 	}
 
 	// add secured paths
 	for _, path := range config.SecuredPaths {
-		createSecurityPath(SecurityPath{
-			Method:    strings.ToUpper(path.Method),
-			PathRegex: path.PathRegex,
-			Role:      strings.Join(path.Roles, ","),
-			IsPublic:  false,
-		})
+		for _, method := range path.Method {
+			createSecurityPath(SecurityPath{
+				Method:    strings.ToUpper(method),
+				PathRegex: path.PathRegex,
+				Role:      strings.Join(path.Roles, ","),
+				IsPublic:  false,
+			})
+		}
 	}
 }
 

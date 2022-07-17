@@ -16,7 +16,7 @@ import (
 //// SecurityPath ////
 
 func connectDB() *gorm.DB {
-	return sqlite.DB("__debug.sqlite")
+	return sqlite.Memory()
 }
 
 func autoMigrateSecurityPath() {
