@@ -106,7 +106,7 @@ func (w *WebSecurity) Login(c *gin.Context, userId uint, role []string) *Securit
 	}
 
 	createSession(&session)
-	c.SetCookie("sessionId", session.SessionId, int(w.SecurityConfig.SessionExpire.Seconds()), "/", "", w.SecurityConfig.OnlyHttps, true)
+	w.setCookie(c, session.SessionId)
 
 	return &session
 }
@@ -138,7 +138,7 @@ func (w *WebSecurity) RefreshSession(c *gin.Context) {
 	session.Expire = time.Now().Add(*w.SecurityConfig.SessionExpire)
 	updateSession(session)
 
-	c.SetCookie("sessionId", session.SessionId, int(w.SecurityConfig.SessionExpire.Seconds()), "/", "", w.SecurityConfig.OnlyHttps, true)
+	w.setCookie(c, session.SessionId)
 }
 
 // RefreshWithToken refresh the session with token.
@@ -167,5 +167,9 @@ func (w *WebSecurity) RefreshWithToken(c *gin.Context) {
 	session.RefreshToken = uuid.New().String()
 	updateSession(session)
 
-	c.SetCookie("sessionId", session.SessionId, int(w.SecurityConfig.SessionExpire.Seconds()), "/", "", w.SecurityConfig.OnlyHttps, true)
+	w.setCookie(c, session.SessionId)
+}
+
+func (w *WebSecurity) setCookie(c *gin.Context, sessionId string) {
+	c.SetCookie("sessionId", sessionId, int(w.SecurityConfig.SessionExpire.Seconds()), "/", "", w.SecurityConfig.OnlyHttps, true)
 }
