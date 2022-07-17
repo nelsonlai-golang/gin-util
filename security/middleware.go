@@ -68,7 +68,7 @@ func checkIsPublic(potentialPaths []SecurityPath, method string, path string) bo
 	for _, potentialPath := range potentialPaths {
 		match, _ := regexp.MatchString(potentialPath.PathRegex, path)
 		if match && potentialPath.Method == method {
-			return potentialPath.isPublic
+			return potentialPath.IsPublic
 		}
 	}
 	return false

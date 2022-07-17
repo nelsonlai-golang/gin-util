@@ -53,5 +53,5 @@ type SecurityPath struct {
 	Method    string
 	PathRegex string
 	Role      string
-	isPublic  bool
+	IsPublic  bool
 }

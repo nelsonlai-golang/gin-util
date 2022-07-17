@@ -26,7 +26,7 @@ func (w *WebSecurity) BuildSecurityTable(config *SecurityConfig) {
 			Method:    strings.ToUpper(path.Method),
 			PathRegex: path.PathRegex,
 			Role:      "*",
-			isPublic:  true,
+			IsPublic:  true,
 		})
 	}
 
@@ -36,7 +36,7 @@ func (w *WebSecurity) BuildSecurityTable(config *SecurityConfig) {
 			Method:    strings.ToUpper(path.Method),
 			PathRegex: path.PathRegex,
 			Role:      strings.Join(path.Roles, ","),
-			isPublic:  false,
+			IsPublic:  false,
 		})
 	}
 }
