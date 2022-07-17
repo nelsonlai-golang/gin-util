@@ -15,7 +15,7 @@ type WebSecurity struct {
 
 // BuildSecurityTable build the security table
 func (w *WebSecurity) BuildSecurityTable(config *SecurityConfig) {
-	deleteSecurityPathTable()
+	deleteSecurityPath()
 	autoMigrateSecurityPath()
 
 	w.SecurityConfig = config

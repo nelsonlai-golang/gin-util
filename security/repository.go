@@ -1,6 +1,7 @@
 package security
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/nelsonlai-golang/db-util/sqlite"
@@ -15,7 +16,7 @@ import (
 //// SecurityPath ////
 
 func connectDB() *gorm.DB {
-	return sqlite.Memory()
+	return sqlite.DB("__debug.sqlite")
 }
 
 func autoMigrateSecurityPath() {
@@ -23,9 +24,12 @@ func autoMigrateSecurityPath() {
 	db.AutoMigrate(&SecurityPath{})
 }
 
-func deleteSecurityPathTable() {
+func deleteSecurityPath() {
 	db := connectDB()
-	db.Unscoped().Delete(&SecurityPath{})
+	err := db.Unscoped().Where("id IS NOT NULL").Delete(&SecurityPath{}).Error
+	if err != nil {
+		panic(err)
+	}
 }
 
 func createSecurityPath(path SecurityPath) {
@@ -45,7 +49,7 @@ func findPotentialPaths(method string, path string) []SecurityPath {
 
 	db := connectDB()
 	var paths []SecurityPath
-	db.Where("method = ? AND (?)", method, query).Find(&paths)
+	db.Where(fmt.Sprintf("method = ? AND (%s)", query), method).Find(&paths)
 	return paths
 }
 
